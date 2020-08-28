@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>JS Calendar</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- icons -->
+        <script src="https://kit.fontawesome.com/9547750bbd.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <header>
+            <div class="current-date">
+                <span  id="current-day-id" class="current-day">1</span><span  id="current-month-id" class="current-month">JANUARY</span><span id="current-year-id" class="current-year">2019</span>
+            </div>
+
+            <div class="change-month">
+               <i class="fas fa-arrow-left my-arrow-icon"></i>
+                <span class="displayed-month-title">          <select class="select-month">
+                    <option>Jan</option>
+                    <option>Feb</option>
+                    <option selected>December</option>
+                </select></span><span class="displayed-year-title">          <select class="select-month">
+                    <option>Jan</option>
+                    <option>Feb</option>
+                    <option selected>2020</option>
+                </select></span>
+                <i class="fas fa-arrow-right my-arrow-icon"></i>
+
+            </div>
+        </header>
+        <main class="calendar-container">
+            <div class="calendar-menu">
+                <button class="btn-add-event"><span class="plus-sign">+</span>Create</button>
+                <div class="events-type">
+                    <h2>Events type</h2>
+                    <ul>
+                        <li> <input type="checkbox"> type 1</li>
+                        <li> <input type="checkbox"> type 2</li>
+                        <li> <input type="checkbox"> type 3</li>
+                    </ul>
+                    
+                </div>
+            </div>
+            <div class="calendar">
+                <div class="month">
+                    <ul class="week day-names">
+                        <li class="day-name">Monday</li>
+                        <li class="day-name">Tuesday</li>
+                        <li class="day-name">Wednesday</li>
+                        <li  class="day-name">Thursday</li>
+                        <li class="day-name">Friday</li>
+                        <li class="day-name">Saturday</li>
+                        <li class="day-name">Sunday</li>
+                    </ul>
+                    <ul class="week days">
+                        <li class="day-other-month"><h2 class="day-number">30</h2></li>
+                        <li class="day-other-month" > <h2 class="day-number">31</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                    </ul>
+                    <ul class="week days">
+                        <li ><h2 class="day-number">01</h2></li>
+                        <li > <h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2>
+                        </li>
+                    </ul>
+                    <ul class="week days">
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li><h2 class="day-number">01</h2></li>
+                        <li class="day-other-month"><h2 class="day-number">01</h2></li>
+                        <li class="day-other-month" > <h2 class="day-number">02</h2></li>
+
+                    </ul>
+                </div>
+            </div>
+  
+        </main>
+        <footer>
+
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+</html>
