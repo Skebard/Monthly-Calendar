@@ -1,2 +1,2 @@
 # Monthly-WeeklyCalendar
-Calendar, mainly made with JS,  that displays both months and weeks
+Calendar that allows to introduce events and displays them on a monthly calendar
