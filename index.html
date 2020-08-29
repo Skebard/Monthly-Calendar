@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>JS Calendar</title>
-        <link rel="stylesheet" href="style.css">
-        <!-- icons -->
-        <script src="https://kit.fontawesome.com/9547750bbd.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <header>
-            <div class="current-date">
-                <span  id="current-day-id" class="current-day">1</span><span  id="current-month-id" class="current-month">JANUARY</span><span id="current-year-id" class="current-year">2019</span>
-            </div>
 
-            <div class="change-month">
-               <i class="fas fa-arrow-left my-arrow-icon"></i>
-                <span class="displayed-month-title">          <select id="select-month-id" class="select-month" >
- 
-                </select></span><span class="displayed-year-title">          <select id="select-year-id" class="select-year"  >
+<head>
+    <meta charset="UTF-8">
+    <title>JS Calendar</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- icons -->
+    <script src="https://kit.fontawesome.com/9547750bbd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="current-date">
+            <span id="current-day-id" class="current-day">1</span><span id="current-month-id"
+                class="current-month"></span><span id="current-year-id" class="current-year"></span>
+        </div>
+
+        <div class="change-month">
+            <i id="previous-month-btn" class="fas fa-arrow-left my-arrow-icon"></i>
+            <span class="displayed-month-title"> <select id="select-month-id" class="select-month">
+
+                </select></span><span class="displayed-year-title"> <select id="select-year-id" class="select-year">
                 </select></span>
-                <i class="fas fa-arrow-right my-arrow-icon"></i>
+            <i id="next-month-btn" class="fas fa-arrow-right my-arrow-icon"></i>
+
+        </div>
+    </header>
+    <main class="calendar-container">
+        <div class="calendar-menu">
+            <button class="btn-add-event"><span class="plus-sign">+</span>Create</button>
+            <div class="events-type">
+                <h2>Events type</h2>
+                <ul>
+                    <li> <input type="checkbox"> type 1</li>
+                    <li> <input type="checkbox"> type 2</li>
+                    <li> <input type="checkbox"> type 3</li>
+                </ul>
 
             </div>
-        </header>
-        <main class="calendar-container">
-            <div class="calendar-menu">
-                <button class="btn-add-event"><span class="plus-sign">+</span>Create</button>
-                <div class="events-type">
-                    <h2>Events type</h2>
-                    <ul>
-                        <li> <input type="checkbox"> type 1</li>
-                        <li> <input type="checkbox"> type 2</li>
-                        <li> <input type="checkbox"> type 3</li>
-                    </ul>
-                    
-                </div>
-            </div>
-            
+        </div>
 
 
-            
-            <div class="calendar" id="calendar-id">
-                <!--
+
+
+        <div class="calendar" id="calendar-id">
+            <!--
                 <div class="month">
                     <ul class="week day-names">
                         <li class="day-name">Monday</li>
@@ -87,13 +90,14 @@
                 </div>
             
             -->
-            </div>
-  
-        </main>
-        <footer>
+        </div>
 
-        </footer>
+    </main>
+    <footer>
 
-        <script src="script.js"></script>
-    </body>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
 </html>
