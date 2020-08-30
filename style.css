@@ -20,6 +20,7 @@ body{
 .hide{
     display:none;
 }
+
 /**** Header ****/
 header{
     display:flex;
@@ -40,6 +41,7 @@ header > *{
     font-weight:bold;
     font-size:2rem;
     margin-right:0.4rem;
+    cursor: default;
     
 }
 .current-day{
@@ -161,6 +163,7 @@ ul.day-names{
     font-weight:lighter;
     padding:0.2rem;
     text-transform: uppercase;
+    cursor: default;
 }
 .day-names >li:last-child{
     background-color:#ff6d5d;
@@ -187,10 +190,139 @@ li.day-other-month:last-child > .day-number{
     margin:0.4rem;
     color: #646464;
     font-weight:lighter;
+    user-select:none;
+    -moz-user-select:none;
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
 }
 
 
+/******/
+.modals.hide{
+    display:none;
+}
+.modals > div.hide{
+    display:none;
+}
+.modals{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.6);
+    z-index:10;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+}
+
+.add-event-modal{
+    display:flex;
+    flex-direction: column;
+    position:relative;
+    top:50vh;
+    transform: translate(0,-50%);
+    background-color:white;
+    padding:2rem;
+    border-radius: 1rem;
+}
+
+.add-event-modal select, .add-event-modal textarea, .add-event-modal [name="event-title"]{
+    display:block;
+}
+.add-event-modal [name="event-title"]{
+    font-size: 1.6rem;
+
+}
+.add-event-modal textarea{
+    margin-bottom:1rem;
+}
+.add-event-modal input {
+    margin-bottom:1rem;
+    font-size: 1.2rem;
+    border:none;
+    outline:none;
+    border-bottom: 1px solid #5d5e60;
+    color:#5d5e60;
+    transition: all 0.7s;
+}
+.add-event-modal input:focus{
+    border-color:#367fce;
+
+}
+.add-event-modal select {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color:#5d5e60;
+}
+.add-event-modal label{
+    color:#5d5e60;
+    font-size:1.2rem;
+}
+.btn-close-modal{
+    cursor:pointer;
+    background-color:transparent;
+    border:none;
+    outline:none;
+    position:absolute;
+    right:0.5rem;
+    top: 0.5rem;
+    width:fit-content;
+    color:balck;
+    font-weight:bolder;
+    font-size:1.6rem;
+    transform: scale(1.25,1);
+    color:#5d5e60;
+}
+.btn-close-modal:hover{
+    color:black;
+}
+.form-buttons{
+    display:flex;
+    justify-content:space-around;
+}
+.form-buttons > button{
+    cursor:pointer;
+    padding:0.2rem;
+    width:30%;
+    padding: 1rem;
+    font-size:1.2rem;
+    font-weight:bold;
+    border:none;
+    outline:none;
+    border-radius:1rem;
+    margin-top:1rem;
+    color:#5d5e60;
+    transition: all 0.7s;
+}
+.form-buttons > button:hover{
+    color:black;
+}
+.form-buttons > button:first-child{
+    background-color: #7099c5;
+}
+.form-buttons > button:first-child:hover{
+    background-color: #367fce;
+}
+.form-buttons > button:last-child{
+    background-color:#ff6d5d;
+}
+.form-buttons > button:last-child:hover{
+    background-color:#fb4733;
+}
+
+
+.initial-date{
+    width:fit-content;
+}
+.select-date-container > label{
+    display:block;
+}
+
 /**  fancy**/
+
 /*
 .calendar{
     perspective:600px;

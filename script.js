@@ -13,6 +13,11 @@ let selectYear = document.getElementById("select-year-id");
 let calendar = document.getElementById("calendar-id");
 let nextMonthBtn = document.getElementById("next-month-btn");
 let previousMonthBtn = document.getElementById("previous-month-btn");
+let modalContainer = document.getElementById("modal-container");
+let btnCloseModal = document.getElementById("btn-close");
+let btnCancelAdd = document.getElementById("btn-cancel");
+
+
 
 
 
@@ -29,7 +34,7 @@ myCalendar.createMonth(currentDate.getFullYear(),currentDate.getMonth()+1);
 
 nextMonthBtn.addEventListener("click",e=>myCalendar.displayNextMonth());
 previousMonthBtn.addEventListener("click",e=>myCalendar.displayPreviousMonth());
-
+modalContainer.addEventListener("click",(e)=>{closeModal(e)});
 
 
 //set width to the displayed month title according to the length of the month name
@@ -50,6 +55,24 @@ selectYear.addEventListener("click",function(){
         myCalendar.displayMonth(displayedYear,myCalendar.displayedMonth);
     }
 });
+
+function validateForm(){
+
+}
+function closeModal(event){
+    event.preventDefault();
+    let closeModalOptions = [modalContainer,btnCloseModal,btnCancelAdd];
+    if(closeModalOptions.indexOf(event.target)!==-1){
+        modalContainer.classList.add("hide");
+        Array.from(modalContainer.children).forEach((modal)=>{
+            modal.classList.add("hide");
+        });
+    }
+}
+function displayModal(HTMLmodal){
+    modalContainer.classList.remove("hide");
+    HTMLmodal.classList.remove("hide");
+}
 
 function addSelectableMonths() {
     MONTHS.forEach((el, index) => {
