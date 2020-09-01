@@ -42,10 +42,12 @@ header > *{
     font-size:2rem;
     margin-right:0.4rem;
     cursor: default;
-    
 }
 .current-day{
     font-size: 4.5rem;
+}
+.current-month{
+    text-transform: uppercase;
 }
 .current-year{
     color:#5d5e60;
@@ -207,6 +209,7 @@ li.day-other-month:last-child > .day-number{
 }
 
 .day-number {
+    position:relative;
     margin:0.4rem;
     color: #646464;
     font-weight:lighter;
@@ -231,6 +234,38 @@ li.day-other-month:last-child > .day-number{
     height: calc(100% + 10%);
     z-index: 5;
 }
+
+.week > li:hover .shortcut-add{
+    display:none;
+}
+.shortcut-add{
+    cursor:pointer;
+    font-weight:900;
+    background-color:#d3d3d3;
+    right: 0;
+    width:1.8rem;
+    position:absolute;
+    text-align:center;
+    color: #b6b6b6;
+    display:inline-flex;
+    justify-content:center;
+}
+.shortcut-add:before{
+    transform: scale(1.6,1.6);
+    content:"+";
+    position:relative;
+}
+.shortcut-add:after{
+    position:absolute;
+    right:0;
+    left:0;
+    top:100%;
+    content:"";
+    border: 0.9rem solid transparent;
+    border-top: 0.9rem solid #d3d3d3;
+}
+
+
 /******/
 .modals.hide{
     display:none;
@@ -379,7 +414,6 @@ li.day-other-month:last-child > .day-number{
     border-radius: 10%;
     padding-left:1.4rem;
     position:relative;
-    
 }
 .event:hover{
     background-color: #d3d3d3;
@@ -389,12 +423,18 @@ li.day-other-month:last-child > .day-number{
     position:absolute;
     height:0.8rem;
     width:0.8rem;
-    background-color:#7099c5;
+    background-color:#367fce;
     top:50%;
     left:0.4rem;
     transform: translate(0,-50%);
     border-radius:50%;
+}
 
+.expired.event:before{
+    background-color: #699ace;
+}
+.event.expired{
+    color: #c7c7c7;
 }
 
 
@@ -436,12 +476,15 @@ li.day-other-month:last-child > .day-number{
         display:flex;
     }
 }
-@media screen and (max-width: 700px){
+@media screen and (max-width: 770px){
     header{
         flex-direction:column;
     }
     .change-month{
         margin-left:7rem;
     }
+}
 
+@media screen and(max-width: 660px){
+    
 }

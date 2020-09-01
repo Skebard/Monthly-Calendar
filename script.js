@@ -42,6 +42,8 @@ let events = []; // variable to upload the events from the localStorage
 let myCalendar = new Calendar();
 let currentDate = new Date();
 
+//upload already existing events
+loadEvents();
 //Initialise calendar
 myCalendar.updateCurrentDate();
 addSelectableMonths();
@@ -72,6 +74,24 @@ selectYear.addEventListener("click",function(){
         myCalendar.displayMonth(displayedYear,myCalendar.displayedMonth);
     }
 });
+
+//load the events from the localStorage to the variable events
+//the dates are date objects
+function loadEvents(){
+    if(localStorage.lengh === 0){
+        return false;
+    }
+
+    events = JSON.parse(localStorage.events);
+    //convert strings to date objects
+    events.forEach((el)=>{
+        el.initialDate = new Date(el.initialDate);
+        el.creationDate = new Date(el.creationDate);
+        el.endDate = new Date(el.endDate);
+        el.reminderDate = new Date(el.reminderDate);
+    });
+}
+
 function displayFormAddEvent(){
     modalContainer.classList.remove("hide");
     modalAddEvent.classList.remove("hide");
@@ -311,7 +331,10 @@ function Calendar() {
                     newDay.classList.add("day-" + newMonthDay);
                 }
 
-                //Maybe make a function 
+                let shortcutAdd = document.createElement("span");
+                shortcutAdd.classList.add("shortcut-add");
+                newDayNumber.appendChild(shortcutAdd);
+                //Maybe make a function
                 if(day === new Date().getDate() && currentMonth && !added){
                     added=true;
                     let today = document.createElement("div");
