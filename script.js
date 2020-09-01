@@ -13,15 +13,31 @@ let selectYear = document.getElementById("select-year-id");
 let calendar = document.getElementById("calendar-id");
 let nextMonthBtn = document.getElementById("next-month-btn");
 let previousMonthBtn = document.getElementById("previous-month-btn");
+let btnAddEvent = document.getElementById("btn-add-event-id");
+//modal elements
 let modalContainer = document.getElementById("modal-container");
+let modalAddEvent = document.getElementById("add-event-modal-id");
 let btnCloseModal = document.getElementById("btn-close");
 let btnCancelAdd = document.getElementById("btn-cancel");
+let btnSaveEvent = document.getElementById("btn-save");
+let eventTitle = document.getElementById("event-title");
+let initialDate = document.getElementById("initial-date");
+let initialDateHour = document.getElementById("initial-date-hour-id");
+let endDate = document.getElementById("end-date");
+let endDateHour = document.getElementById("end-date-hour-id");
+let endDateCheckbox = document.getElementById("end-date-checkbox");
+let reminderCheckbox = document.getElementById("reminder-checkbox");
+let reminderSelector = document.getElementById("reminder-selector");
+let eventDescription = document.getElementById("event-description");
+let eventType = document.getElementById("event-type");
+let errorTitle = document.getElementById("error-title");
+let errorInitialDate = document.getElementById("error-initial-date");
 
 
 
 
-
-
+// the events are stored in the localStorage.
+let events = []; // variable to upload the events from the localStorage
 
 let myCalendar = new Calendar();
 let currentDate = new Date();
@@ -30,12 +46,13 @@ let currentDate = new Date();
 myCalendar.updateCurrentDate();
 addSelectableMonths();
 addSelectableYears();
-myCalendar.createMonth(currentDate.getFullYear(),currentDate.getMonth()+1);
+myCalendar.createMonth(currentDate.getFullYear(),currentDate.getMonth()+1,false,true);
 
 nextMonthBtn.addEventListener("click",e=>myCalendar.displayNextMonth());
 previousMonthBtn.addEventListener("click",e=>myCalendar.displayPreviousMonth());
 modalContainer.addEventListener("click",(e)=>{closeModal(e)});
-
+btnAddEvent.addEventListener("click",displayFormAddEvent);
+btnSaveEvent.addEventListener("click",(e)=>{addEvent(e)});
 
 //set width to the displayed month title according to the length of the month name
 selectMonth.addEventListener("click", function () {
@@ -55,14 +72,86 @@ selectYear.addEventListener("click",function(){
         myCalendar.displayMonth(displayedYear,myCalendar.displayedMonth);
     }
 });
-
-function validateForm(){
+function displayFormAddEvent(){
+    modalContainer.classList.remove("hide");
+    modalAddEvent.classList.remove("hide");
 
 }
-function closeModal(event){
+
+function addEvent(event){
     event.preventDefault();
+    if(validateForm()===false){
+        return false;
+    }
+
+    let evInitialDate = new Date(initialDate.value.slice(0,4),parseInt(initialDate.value.slice(5,7))-1,initialDate.value.slice(8,10),initialDateHour.value.slice(0,2),initialDateHour.value.slice(3,5));
+    let evEndDate = new Date(endDate.value.slice(0,4),parseInt(endDate.value.slice(5,7))-1,endDate.value.slice(8,10),endDateHour.value.slice(0,2),endDateHour.value.slice(3,5));
+    let reminderMinutes = 0;
+    reminderSelector.querySelectorAll("option").forEach((el)=>{
+        if (reminderSelector.value = el.value){
+            reminderMinutes = el.dataset.time;
+        }
+    });
+    let evReminder =  new Date(endDate.value.slice(0,4),parseInt(endDate.value.slice(5,7))-1,endDate.value.slice(8,10),endDateHour.value.slice(0,2),parseInt(endDateHour.value.slice(3,5))-reminderMinutes);
+    let newEvent = new Event(eventTitle.value,evInitialDate,new Date(),evEndDate,evReminder,eventDescription.value,eventType.value);
+    events.push(newEvent);
+    localStorage.setItem("events",JSON.stringify(events));
+    modalContainer.classList.add("hide");
+    modalAddEvent.classList.add("hide");
+    //reset form
+    //add event to the calendar
+    //check
+
+    let dayElement =document.querySelector("#year-"+evInitialDate.getFullYear() + "> [data-month='" + (evInitialDate.getMonth()+1)+"'] .day-"+evInitialDate.getDate());
+    console.log(dayElement);
+    if(dayElement === null){
+        // the month is not displayed yet. So there is nothing to do
+        return false;
+    }else{
+        let eventContainer = dayElement.querySelector(".events-container");
+        if (eventContainer === null){
+            console.log("creae event container");
+            eventContainer = document.createElement("div");
+            eventContainer.classList.add("events-container");
+            let newEvent = document.createElement("div");
+            newEvent.classList.add("event");
+            newEvent.textContent = "my new event";
+            eventContainer.appendChild(newEvent);
+            
+            dayElement.appendChild(eventContainer);
+        }else{
+
+        }
+    }
+
+    return true;
+}
+
+function validateForm(){
+    console.log(eventTitle.value);
+    if(eventTitle.value===""){
+        console.log("remove");
+        errorTitle.classList.remove("hide");
+        return false;
+    }else{
+        errorTitle.classList.add("hide");
+    }
+    if(initialDate.value===""){
+        errorInitialDate.classList.remove("hide");
+        return false;
+    }else{
+        errorInitialDate.classList.add("hide");
+    }
+    return true;
+    //store event
+}
+
+
+
+function closeModal(event){
     let closeModalOptions = [modalContainer,btnCloseModal,btnCancelAdd];
     if(closeModalOptions.indexOf(event.target)!==-1){
+        event.preventDefault();
         modalContainer.classList.add("hide");
         Array.from(modalContainer.children).forEach((modal)=>{
             modal.classList.add("hide");
@@ -115,6 +204,19 @@ function updateSelectedDate(year,month){
     });
 }
 
+//function to create events. We want to store all the information as strings since we 
+//will be using 
+function Event(title,initialDate,creationDate,endDateTime,reminderDate,description,type){
+    this.title = title;
+    this.initialDate = initialDate;
+    this.creationDate = creationDate;
+    this.endDate = endDateTime;
+    this.reminderDate = reminderDate;
+    this.description = description;
+    this.type = type;
+    this.expired = (endDateTime.getTime()<=new Date().getTime())? true:false;
+}
+
 function Calendar() {
 
     //returns an object with month infomation
@@ -138,7 +240,7 @@ function Calendar() {
 
     this.displayedYear;
     this.displayedMonth;
-    this.createMonth = function (year, month, hide = false) {
+    this.createMonth = function (year, month, hide = false, currentMonth=false) {
         //check if the month already exists
         if (document.querySelector("#year-" + year + " > .month-" + month) !== null) {
             console.log("The selected month already extists");
@@ -182,6 +284,7 @@ function Calendar() {
         let day = 0; //created days of the current month
         let displayedDays = 0; //total number of created days (includes from other months)
         let newMonthDay = 0;
+        let added = false; //variable to know if the current day has been already added
         while (day < monthTime.days) {
             let newWeek = document.createElement("ul");
             newWeek.classList.add("week");
@@ -207,7 +310,19 @@ function Calendar() {
                     newDay.classList.add("day-other-month");
                     newDay.classList.add("day-" + newMonthDay);
                 }
-                newDay.appendChild(newDayNumber);
+
+                //Maybe make a function 
+                if(day === new Date().getDate() && currentMonth && !added){
+                    added=true;
+                    let today = document.createElement("div");
+                    today.classList.add("today");
+                    newDay.classList.add("today-container");
+                    today.appendChild(newDayNumber);
+                    newDay.appendChild(today);
+                }else{
+                    newDay.appendChild(newDayNumber);
+                }
+                
                 displayedDays++;
                 newWeek.appendChild(newDay);
             }
@@ -293,7 +408,7 @@ function Calendar() {
             month = 12;
             year = year -1;
         }
-        let selectedMonth = document.querySelector("#year-"+year+" > .month-"+month);
+        let selectedMonth = document.querySelector("#year-"+year+ " > [data-month='" + month+"']");
         this.displayedYear = year;
         this.displayedMonth = month;
         if (selectedMonth!==null){

@@ -28,7 +28,7 @@
     </header>
     <main class="calendar-container">
         <div class="calendar-menu">
-            <button class="btn-add-event"><span class="plus-sign">+</span>Create</button>
+            <button id="btn-add-event-id" class="btn-add-event"><span class="plus-sign">+</span>Create</button>
             <div class="events-type">
                 <h2>Events type</h2>
                 <ul>
@@ -94,44 +94,49 @@
 
     </main>
     <div id="modal-container"  class="modals">
-        <div class="add-event-modal">
+        <div id="add-event-modal-id" class="add-event-modal" >
             <form class="event-form">
                 <button id="btn-close" class="btn-close-modal">X</button>
+                <i id="error-title" class="fas fa-exclamation hide"></i>
                 <input id="event-title" name ="event-title" type="text" placeholder="Add title">
+                <i id="error-initial-date" class="fas fa-exclamation hide"></i>
                 <div class="select-date-container">
                     <label for="initial-date">Initial date</label>
                     <input id="initial-date" class="initial-date" name="initial-date" type="date">
-                    <input type="time" id="initial-date-hour-id" class="date-hour">
+                    <input type="time" id="initial-date-hour-id" class="date-hour" value="00:00">
                 </div>
-                <div class="select-date-container">
-                    <label for="end-date"><input type='checkbox' id="end-date-checkbox"> End date</label>
-                    <input  id="end-date" class="" name="end-date" type="date">
-                    <input type="time" id="end-date-hour-id" class="date-hour">
-
+                <div class="none-required">
+                    <div class="select-date-container">
+                        <label for="end-date"><input type='checkbox' id="end-date-checkbox"> End date</label>
+                        <input  id="end-date" class="" name="end-date" type="date">
+                        <input type="time" id="end-date-hour-id" class="date-hour" value="23:59">
+    
+                    </div>
+                    <label for="reminder-selector">
+                        <input id="reminder-checkbox" type="checkbox"> Add reminder
+                    </label>
+                    <select id="reminder-selector" class="">
+                        <option data-time="5" selected> 5 minutes</option>
+                        <option data-time="10"> 10 minutes</option>
+                        <option data-time="15"> 15 minutes</option>
+                        <option data-time="30"> 30 minutes</option>
+                        <option data-time="60"> 1 hour</option>
+                    </select>
+                    <label for="event-description">Description</label>
+                    <textarea id="event-description" name="event-description" rows="5" cols="40"></textarea>
+                    <label for="event-type">Type</label>
+                    <select id="event-type" name="event -type">
+                        <option selected>Chose one option</option>
+                        <option>Meeting</option>
+                        <option>Personal</option>
+                        <option>Study</option>
+                    </select>
+                    <div class="form-buttons">
+                        <button id="btn-save" type="submit">Save</button>
+                        <button id="btn-cancel">Cancel</button>
+                    </div>
                 </div>
-                <label for="reminder-selector">
-                    <input id="reminder-checkbox" type="checkbox"> Add reminder    
-                </label>
-                <select id="reminder-selector" class="">
-                    <option data-time="5"> 5 minutes</option>
-                    <option data-time="10"> 10 minutes</option>
-                    <option data-time="15"> 15 minutes</option>
-                    <option data-time="30"> 30 minutes</option>
-                    <option data-time="60"> 1 hour</option>
-                </select>
-                <label for="event-description">Description</label>
-                <textarea id="event-description" name="event-description" rows="5" cols="40"></textarea>
-                <label for="event-type">Type</label>
-                <select id="event-type" name="event -type">
-                    <option selected>Chose one option</option>
-                    <option>Meeting</option>
-                    <option>Personal</option>
-                    <option>Study</option>
-                </select>
-                <div class="form-buttons">
-                    <button id="btn-save" type="submit">Save</button>
-                    <button id="btn-cancel">Cancel</button>
-                </div>
+                
 
             </form>
         </div>
