@@ -9,7 +9,7 @@ ul{
 body{
     font-family:helvetica,sans-serif;
     background-color:#d3d3d3;
-    min-width:500px;
+    min-width:455px;
     min-height: 95vh;
     display:flex;
     flex-direction:column;
@@ -211,6 +211,7 @@ li.day-other-month:last-child > .day-number{
 .day-number {
     position:relative;
     margin:0.4rem;
+    margin-bottom:0.8rem;
     color: #646464;
     font-weight:lighter;
     user-select:none;
@@ -236,7 +237,7 @@ li.day-other-month:last-child > .day-number{
 }
 
 .week > li:hover .shortcut-add{
-    display:none;
+    visibility: visible;
 }
 .shortcut-add{
     cursor:pointer;
@@ -249,6 +250,7 @@ li.day-other-month:last-child > .day-number{
     color: #b6b6b6;
     display:inline-flex;
     justify-content:center;
+    visibility: hidden;
 }
 .shortcut-add:before{
     transform: scale(1.6,1.6);
@@ -264,8 +266,21 @@ li.day-other-month:last-child > .day-number{
     border: 0.9rem solid transparent;
     border-top: 0.9rem solid #d3d3d3;
 }
+.event{
+    font-weight:700;
+}
+.event-time{
+    font-weight:100;
+}
 
-
+.more-events{
+    white-space:nowrap;
+    margin-left:0.4rem;
+    text-transform: lowercase;
+    font-weight: 900;
+    font-size:0.8rem;
+    
+}
 /******/
 .modals.hide{
     display:none;
@@ -297,8 +312,11 @@ li.day-other-month:last-child > .day-number{
     border-radius: 1rem;
 }
 
-.add-event-modal select, .add-event-modal textarea, .add-event-modal [name="event-title"]{
+.add-event-modal select, .add-event-modal label, .add-event-modal textarea, .add-event-modal [name="event-title"]{
     display:block;
+}
+.add-event-modal select.hide, .add-event-modal label.hide{
+    display:none;
 }
 .add-event-modal [name="event-title"]{
     font-size: 1.6rem;
@@ -421,8 +439,8 @@ li.day-other-month:last-child > .day-number{
 .event:before{
     content:"";
     position:absolute;
-    height:0.8rem;
-    width:0.8rem;
+    height:0.6rem;
+    width:0.6rem;
     background-color:#367fce;
     top:50%;
     left:0.4rem;
@@ -432,6 +450,16 @@ li.day-other-month:last-child > .day-number{
 
 .expired.event:before{
     background-color: #699ace;
+}
+
+.event.personal:before{
+    background-color:#36ce4f;
+}
+.event.meeting:before{
+    background-color:#ce9936;
+}
+.event.study:before{
+    background-color:#c936ce;
 }
 .event.expired{
     color: #c7c7c7;
@@ -485,6 +513,16 @@ li.day-other-month:last-child > .day-number{
     }
 }
 
-@media screen and(max-width: 660px){
-    
+@media screen and (max-width: 660px), ( max-height: 660px){
+    .shortcut-add{
+        width: 1.2rem;
+    }
+    .shortcut-add:before{
+        font-size:0.8rem;
+    }
+    .shortcut-add:after{
+        border: 0.6rem solid transparent;
+        border-top: 0.6rem solid #d3d3d3;
+    }
 }
+
