@@ -33,9 +33,15 @@ let eventDescription = document.getElementById("event-description");
 let eventType = document.getElementById("event-type");
 let errorTitle = document.getElementById("error-title");
 let errorInitialDate = document.getElementById("error-initial-date");
-
-
-
+//events type checkboxes
+let noneCheckbox = document.getElementById("checkbox-type-none");
+let personalCheckbox = document.getElementById("checkbox-type-personal");
+let studyCheckbox = document.getElementById("checkbox-type-study");
+let meetingCheckbox = document.getElementById("checkbox-type-meeting");
+//warning box
+let warningBox = document.getElementById("warning-box-id");
+let singleEventContainer =document.getElementById("single-event-id");
+let btnCloseSingleEvent = document.getElementById("btn-close-event");
 
 // the events are stored in the localStorage.
 let events = []; // variable to upload the events from the localStorage
@@ -54,12 +60,21 @@ myCalendar.createMonth(currentDate.getFullYear(), currentDate.getMonth() + 1, fa
 nextMonthBtn.addEventListener("click", e => myCalendar.displayNextMonth());
 previousMonthBtn.addEventListener("click", e => myCalendar.displayPreviousMonth());
 modalContainer.addEventListener("click", (e) => {
-    closeModal(e)
+    closeModal(e);
 });
+document.addEventListener("keydown",(e)=>{
+    closeModal(e);
+});
+
 btnAddEvent.addEventListener("click", displayFormAddEvent);
 btnSaveEvent.addEventListener("click", (e) => {
     addEvent(e)
 });
+noneCheckbox.addEventListener("click",(e)=>checkedEvent(e,"none"));
+personalCheckbox.addEventListener("click",(e)=>checkedEvent(e,"personal"));
+studyCheckbox.addEventListener("click",(e)=>checkedEvent(e,"study"));
+meetingCheckbox.addEventListener("click",(e)=>checkedEvent(e,"meeting"));
+
 endDateCheckbox.addEventListener("click", (e) => {
     if (e.currentTarget.checked) {
         endDate.classList.remove("hide");
@@ -100,6 +115,12 @@ selectYear.addEventListener("click", function () {
     }
 });
 
+
+btnCloseSingleEvent.addEventListener("click",(e)=>{
+    singleEventContainer.classList.add("hide");
+});
+
+
 //load the events from the localStorage to the variable events
 //the dates are date objects
 function loadEvents() {
@@ -117,7 +138,30 @@ function loadEvents() {
     });
 }
 
-setInterval(checkDisplayedEvents, 1000);
+function checkedEvent(e,type){
+    if(e.currentTarget.checked){
+        displayHideEventsType("display",type);
+    }else{
+        displayHideEventsType("hide",type);
+    }
+}
+function displayHideEventsType(operation,eventType){
+    let events = document.querySelectorAll(".event."+eventType);
+    if(operation ==="display"){
+        events.forEach((e)=>{
+            e.classList.remove("hide");
+            e.classList.add("displayed");
+        });
+    }else{
+        events.forEach((e)=>{
+            e.classList.add("hide");
+            e.classList.remove("displayed");
+        });
+    }
+}
+
+
+setInterval(checkDisplayedEvents, 500);
 //check the size of the screen and displays the num of events that fit
 function checkDisplayedEvents() {
     function manageDisplayEvents(numEvents) {
@@ -132,16 +176,16 @@ function checkDisplayedEvents() {
             let extraEvents = document.createElement("div");
             extraEvents.classList.add("more-events");
             let preExtraEvents = con.querySelector(".more-events");
-            let checkPre = (preExtraEvents === null) ? 0 : -1;
-            if ((con.children.length + checkPre - numEvents) > 0) {
+            let displayedChildren = con.querySelectorAll(".event.displayed").length;
+            if ((displayedChildren - numEvents) > 0) {
 
                 if (preExtraEvents === null) {
                     con.appendChild(extraEvents);
-                    extraEvents.textContent = con.children.length - 1 - numEvents + " more";
-                    // -1 cause the "x more" is also a child
+                    extraEvents.textContent =displayedChildren - numEvents + " more";
+                    
 
                 } else {
-                    preExtraEvents.textContent = con.children.length - 1 - numEvents + " more";
+                    preExtraEvents.textContent = displayedChildren - numEvents + " more";
                 }
 
             } else {
@@ -218,11 +262,12 @@ function addEvent(event) {
     //this variable facilitates get the right year
     let monthElement;
     if (evInitialDate.getDate() > 20) {
-        possibleMonth = new Date(initialDate.value.slice(0, 4), parseInt(initialDate.value.slice(5, 7)), initialDate.value.slice(8, 10));
+        possibleMonth = new Date(initialDate.value.slice(0, 4), parseInt(initialDate.value.slice(5, 7)));
         console.log("check if other month: ");
         console.log(possibleMonth.getFullYear());
-        console.log(evInitialDate.getMonth() + 2);
-        monthElement = document.querySelector("#year-" + possibleMonth.getFullYear() + "> [data-month='" + (evInitialDate.getMonth() + 2) + "']");
+        console.log(possibleMonth.getMonth()+1);
+        console.log("ev:"+(evInitialDate.getMonth() + 2));
+        monthElement = document.querySelector("#year-" + possibleMonth.getFullYear() + "> [data-month='" +(possibleMonth.getMonth()+1) + "']");
         if (monthElement === null) {
             console.log("month does not exist");
             return false;
@@ -237,8 +282,8 @@ function addEvent(event) {
 
         }
     } else if (evInitialDate.getDate() < 7) {
-        possibleMonth = new Date(initialDate.value.slice(0, 4), parseInt(initialDate.value.slice(5, 7)) - 2, initialDate.value.slice(8, 10));
-        monthElement = document.querySelector("#year-" + possibleMonth.getFullYear() + "> [data-month='" + (evInitialDate.getMonth()) + "']");
+        possibleMonth = new Date(initialDate.value.slice(0, 4), parseInt(initialDate.value.slice(5, 7))-2);
+        monthElement = document.querySelector("#year-" + possibleMonth.getFullYear() + "> [data-month='" + (possibleMonth.getMonth()+1) + "']");
         if (monthElement === null) {
             console.log("month does not exist");
             return false;
@@ -278,13 +323,22 @@ function addNewEvent(container, event) {
     newEvent.dataset.position = events.indexOf(event);
     let newEventTime = document.createElement("span");
     newEventTime.classList.add("event-time");
-    console.log(event);
-    console.log(event.initialDate.getDate());
     let eventHours = (event.initialDate.getHours() > 9) ? event.initialDate.getHours() : "0" + "" + event.initialDate.getHours();
     let eventMinutes = (event.initialDate.getMinutes() > 9) ? event.initialDate.getMinutes() : "0" + "" + event.initialDate.getMinutes();
     newEventTime.textContent = eventHours + ":" + eventMinutes;
     newEvent.appendChild(newEventTime);
     newEvent.innerHTML += " " + event.title;
+    newEvent.addEventListener("click",(e)=>{
+        let evContainer = document.createElement("div");
+        displayEventInfo(evContainer,events[e.currentTarget.dataset.position]);
+        if(singleEventContainer.children.length ===3){
+            singleEventContainer.children[2].remove();
+        }
+        singleEventContainer.appendChild(evContainer);
+
+        singleEventContainer.classList.remove("hide");
+    });
+
 
     if (eventContainer === null) {
         console.log("creae event container");
@@ -322,11 +376,91 @@ function validateForm() {
     //store event
 }
 
+setInterval(checkExpiredEvents,10000);
+function checkExpiredEvents(){
+    let newExpired = false;
+    events.forEach((el)=>{
+        if(!el.expired){
+            let remainingTime =  el.endDate.getTime() - new Date().getTime();
+            if(remainingTime <= 0){
+                el.expired = true;
+                newExpired = true;
+            }
+        }
+    });
+    //we only display the warning if an event has expired recently
+    if(newExpired){
+        storeEvents();
+        //display warning
+        displayExpiredEvents();
+    }
+}
+function storeEvents(){
+    localStorage.setItem("events", JSON.stringify(events));
+}
+function displayExpiredEvents(){
+    warningBox.classList.remove("hide");
+    let currentTime = new Date();
+    let eventsContainer =warningBox.querySelector(".expired-events-container");
+    eventsContainer.innerHTML="";
+    let sortedEvents = events.filter((el)=>el.expired).sort((a,b)=>{
+        return (b.endDate.getTime() - currentTime) -(a.endDate.getTime() - currentTime) ;
+    });
+    sortedEvents.forEach((ev)=>{
+        let eventContainer = document.createElement("li");
+        displayEventInfo(eventContainer,ev);
+        let timeAgo = document.createElement("div");
+        timeAgo.classList.add("time-ago");
+        timeAgo.textContent = parseInt(String((currentTime.getTime()-ev.endDate.getTime())/1000/60));
+        timeAgo.innerHTML += "min <br> ago";
+        eventContainer.appendChild(timeAgo);
+        eventsContainer.appendChild(eventContainer);
+    });
+    return sortedEvents;
+}
+//the container should be a div or li 
+function displayEventInfo(container,event){
+    function dateFormat(date){
+        let day = (date.getDay()===0)? 6: date.getDay()-1;
+        return DAYS[day]+", "+date.getDate()+" "+ MONTHS[date.getMonth()]+" "+date.getFullYear();
+    }
+    container.classList.add("event-box");
+    let evTitle = document.createElement("div");
+    evTitle.classList.add("title-event");
+    evTitle.textContent = event.title;
+    let evInitialDate = document.createElement("p");
+    evInitialDate.classList.add("date");
+    evInitialDate.textContent = dateFormat(event.initialDate);
+    let evEndDate = document.createElement("p");
+    evEndDate.classList.add("date");
+    evEndDate.textContent = dateFormat(event.endDate);
+    let evType = document.createElement("p");
+    let evTypeTitle = document.createElement("span");
+    evTypeTitle.classList.add("subtitle");
+    evTypeTitle.textContent = "Type: ";
+    evType.textContent = event.type;
+    evType.insertAdjacentElement("afterbegin",evTypeTitle);
+    let evDescription = document.createElement("p");
+    evDescription.classList.add("description");
+    let evTitleDescription = document.createElement("span");
+    evTitleDescription.classList.add("subtitle");
+    evTitleDescription.textContent = "Description: ";
+    evDescription.textContent = event.description;
+    evDescription.insertAdjacentElement("afterbegin",evTitleDescription);
+    let evCreationDate = document.createElement("p");
+    let evTitleCreationDate = document.createElement("span");
+    evTitleCreationDate.classList.add("subtitle");
+    evTitleCreationDate.textContent = "Creation date: ";
+    evCreationDate.textContent = dateFormat(event.creationDate);
+    evCreationDate.insertAdjacentElement("afterbegin",evTitleCreationDate);
+    container.append(evTitle,evInitialDate,evEndDate,evType,evDescription,evCreationDate);
+}
+
 
 
 function closeModal(event) {
     let closeModalOptions = [modalContainer, btnCloseModal, btnCancelAdd];
-    if (closeModalOptions.indexOf(event.target) !== -1) {
+    if (closeModalOptions.indexOf(event.target) !== -1 || event.keyCode===27) {
         event.preventDefault();
         modalContainer.classList.add("hide");
         Array.from(modalContainer.children).forEach((modal) => {
@@ -419,32 +553,54 @@ function Calendar() {
     function displayMonthEvents(year, month) {
         let allDays = document.querySelectorAll("#year-" + year + " > [data-month='" + month + "']" + " .week.days > li");
         allDays.forEach(day => {
+            let rYear = year;
+            let rMonth;
             let dayNumber = parseInt(day.querySelector(".day-number").textContent);
             if (day.classList.contains("p-month")) {
+                console.log("previous");
                 rMonth = month - 1;
                 if (rMonth === 0) {
                     rYear = year - 1;
                     rMonth = 12;
                 }
             } else if (day.classList.contains("n-month")) {
+                console.log("next");
                 rMonth = month + 1;
                 if (rMonth > 12) {
                     rYear = year + 1;
                     rMonth = 1;
                 }
             } else {
+                console.log("this");
                 rMonth = month;
                 rYear = year;
             }
+            console.log("INFO");
+            console.log(rMonth);
+            console.log(rYear);
+            console.log(dayNumber);
+            
             events.forEach(e => {
                 let eYear = e.initialDate.getFullYear();
                 let eMonth = e.initialDate.getMonth() + 1;
                 let eDay = e.initialDate.getDate();
-                if (eYear === year && eMonth === rMonth && eDay === dayNumber) {
+                if (eYear === rYear && eMonth === rMonth && eDay === dayNumber) {
                     addNewEvent(day, e);
                 }
             });
         });
+        //
+        /*
+        let checkboxes = [noneCheckbox,personalCheckbox,studyCheckbox,meetingCheckbox];
+        let types = ["none","personal","study","meeting"]
+        checkboxes.forEach((el,i)=>{
+            if(el.checked){
+                displayHideEventsType("display",types[i]);
+            }else{
+                displayHideEventsType("hide",types[i]);
+            }
+        });*/
+
     }
     this.displayedYear;
     this.displayedMonth;

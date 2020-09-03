@@ -33,21 +33,21 @@
                 <h2>Events type</h2>
                 <ul>
 
-                    <li></li><label class="container">One
-                        <input type="checkbox" checked="checked">
-                        <span class="checkmark"></span>
+                    <li><label class="container">None
+                        <input id="checkbox-type-none" type="checkbox" checked="checked">
+                        <span class="checkmark none"></span>
                       </label></li>
-                     <li></li> <label class="container">Two
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
+                     <li> <label class="container">Personal
+                        <input id="checkbox-type-personal" type="checkbox" checked="checked">
+                        <span class="checkmark personal"></span>
                       </label></li>
-                      <li></li><label class="container">Three
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
+                      <li><label class="container">Study
+                        <input id="checkbox-type-study" type="checkbox" checked="checked">
+                        <span class="checkmark study"></span>
                       </label></li>
-                      <li></li><label class="container">Four
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
+                      <li><label class="container">Meeting
+                        <input id="checkbox-type-meeting" type="checkbox" checked="checked">
+                        <span class="checkmark meeting"></span>
                       </label></li>
                 </ul>
 
@@ -155,6 +155,21 @@
             </form>
         </div>
     </div>
+    <div id="warning-box-id" class="warning-box hide">
+        <h1 class="title">Expired events</h1>
+        <ul class="expired-events-container">
+        </ul>
+        
+    </div>
+    
+        <div id="single-event-id" class="single-event hide">
+            <button id="btn-close-event" class="btn-close-modal">X</button>
+            <button id="btn-delete-event-id" class="btn-delete-event">delete</button>
+            <div></div>
+        </div>
+       
+   
+
     <footer>
 
     </footer>
