@@ -21,7 +21,7 @@
 ## About The Project
 A calendar where to add events and identify them by category.
 
-![Screenshot](Images/documentation/fullpage.png)
+![Screenshot](images/documentation/fullpage.png)
 
 
 
