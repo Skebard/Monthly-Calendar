@@ -627,7 +627,17 @@ li.day-other-month:last-child>.day-number {
 .expired.event:before {
     background-color: #699ace;
 }
+.expired.event.personal:before {
+    background-color: #6bca7b;
+}
 
+.expired.event.meeting:before {
+    background-color: #d1ab66;
+}
+
+.expired.event.study:before {
+    background-color: #c965cc;
+}
 .event.personal:before {
     background-color: #36ce4f;
 }
@@ -645,7 +655,7 @@ li.day-other-month:last-child>.day-number {
 }
 
 /**** Warning box *****/
-.warning-box, .single-event{
+.warning-box, .single-event, .day-events{
     z-index:10;
     position:absolute;
     top:50%;
@@ -655,8 +665,10 @@ li.day-other-month:last-child>.day-number {
     box-shadow: 0 0 1rem grey;
     padding:1rem;
     border-radius:1rem;
-    min-width:400px;
+    min-width:450px;
     padding-right:5rem;
+    max-height:500px;
+    overflow-y:auto;
 }
 
 .single-event{
@@ -729,6 +741,18 @@ li.day-other-month:last-child>.day-number {
 }
 
 /****** Single event *****/
+.single-event .title-event:before, .day-events .title-event:before{
+    background-color:#326aa7;
+}
+.single-event .study.title-event:before, .day-events .study.title-event:before{
+    background-color: #c936ce;
+}
+.single-event .personal.title-event:before, .day-events .personal.title-event:before{
+    background-color: #36ce4f;
+}
+.single-event .meeting.title-event:before, .day-events .meeting.title-event:before{
+    background-color: #ce9936;
+}
 .single-event .btn-close-modal{
     z-index:2;
 }
@@ -749,11 +773,40 @@ li.day-other-month:last-child>.day-number {
     border:none;
     text-transform: uppercase;
     font-weight:700;
+
 }
 .single-event .btn-delete-event:hover{
     box-shadow: 0 5px 1rem #d3d3d3;
 }
 
+
+/****** Day events *****/
+.day-events{
+
+}
+
+/****** rubish bin ******/
+.rubbish-bin{
+    display:block;
+    width:2.4rem;
+    padding:0.2rem;
+    position:absolute;
+    top:1rem;
+    transform: translate(100%,0);
+    right:0;
+    cursor:pointer;
+    border-radius:0.2rem;
+    transition: all 0.3s;
+    background-color: white;
+}
+.rubbish-bin:hover{
+    background-color:#d3d3d3;
+}
+.single-event .rubbish-bin{
+    top:100%;
+    right:50%;
+    transform: translate(-50%,0);
+}
 /**  fancy**/
 
 /*

@@ -40,9 +40,10 @@ let studyCheckbox = document.getElementById("checkbox-type-study");
 let meetingCheckbox = document.getElementById("checkbox-type-meeting");
 //warning box
 let warningBox = document.getElementById("warning-box-id");
+let btnCloseWarningBox = document.getElementById("btn-close-warning-box");
 let singleEventContainer =document.getElementById("single-event-id");
 let btnCloseSingleEvent = document.getElementById("btn-close-event");
-
+let btnDeleteSingleEvent = document.getElementById("btn-delete-event-id");
 // the events are stored in the localStorage.
 let events = []; // variable to upload the events from the localStorage
 
@@ -101,7 +102,6 @@ selectMonth.addEventListener("click", function () {
     let displayedMonth = selectMonth.value;
     selectMonth.style.width = displayedMonth.length + 2 + "rem";
     if (displayedMonth !== MONTHS[myCalendar.displayedMonth - 1]) {
-        console.log("hiii");
         let newMonth = MONTHS.indexOf(displayedMonth) + 1; // +1 cause the function get months from 1 to 12
         myCalendar.hideMonth();
         myCalendar.displayMonth(myCalendar.displayedYear, newMonth);
@@ -115,16 +115,36 @@ selectYear.addEventListener("click", function () {
     }
 });
 
-
+btnCloseWarningBox.addEventListener("click",()=>{
+    warningBox.classList.add("hide");
+});
 btnCloseSingleEvent.addEventListener("click",(e)=>{
     singleEventContainer.classList.add("hide");
 });
+btnDeleteSingleEvent.addEventListener("click",deleteEvent);
 
+populate();
+
+function populate(){
+    if(localStorage.firstTime===undefined){
+        localStorage.clear();
+        let result = confirm("Welcome to the calendar! \n Do you want to populate the calendar?\n(to get this notification again clear the local storage)");
+        if(result){
+            populateCalendar();
+        }
+        localStorage.firstTime = true;
+        location.reload();
+    }
+}
+
+function populateCalendar(){
+    localStorage.events = '[{"title":"s","initialDate":"2020-09-30T21:00:00.000Z","creationDate":"2020-09-02T19:43:19.087Z","endDate":"2020-10-01T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"s","initialDate":"2020-10-01T21:00:00.000Z","creationDate":"2020-09-02T19:43:21.130Z","endDate":"2020-10-02T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"s","initialDate":"2020-11-29T21:00:00.000Z","creationDate":"2020-09-02T19:43:33.390Z","endDate":"2020-11-30T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"s","initialDate":"2020-12-31T21:00:00.000Z","creationDate":"2020-09-02T19:43:36.786Z","endDate":"2021-01-01T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"s","initialDate":"2021-01-01T21:00:00.000Z","creationDate":"2020-09-02T19:43:38.072Z","endDate":"2021-01-02T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"s","initialDate":"2020-12-30T21:00:00.000Z","creationDate":"2020-09-02T19:43:43.278Z","endDate":"2020-12-31T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"s","initialDate":"2020-12-29T21:00:00.000Z","creationDate":"2020-09-02T19:43:46.021Z","endDate":"2020-12-30T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"asdf","initialDate":"2020-08-28T21:00:00.000Z","creationDate":"2020-09-02T20:48:08.397Z","endDate":"2020-09-24T20:59:00.000Z","reminderDate":"2020-09-24T19:59:00.000Z","description":"","type":"none","expired":false},{"title":"fefe","initialDate":"2020-08-19T21:00:00.000Z","creationDate":"2020-09-02T21:03:34.876Z","endDate":"2020-08-26T20:59:00.000Z","reminderDate":"2020-08-26T19:59:00.000Z","description":"","type":"none","expired":true},{"title":"fefe","initialDate":"2020-08-20T21:00:00.000Z","creationDate":"2020-09-02T21:03:48.004Z","endDate":"2020-08-22T20:59:00.000Z","reminderDate":"2020-08-22T19:59:00.000Z","description":"","type":"none","expired":true},{"title":"My event","initialDate":"2020-09-02T23:02:00.000Z","creationDate":"2020-09-03T04:19:39.872Z","endDate":"2020-09-03T20:59:00.000Z","reminderDate":"2020-09-03T19:59:00.000Z","description":"Finish the calendar","type":"meeting","expired":false},{"title":"My event2","initialDate":"2020-09-02T23:02:00.000Z","creationDate":"2020-09-03T04:24:17.384Z","endDate":"2020-09-03T20:59:00.000Z","reminderDate":"2020-09-03T19:59:00.000Z","description":"Finish the calendar","type":"meeting","expired":false},{"title":"ad","initialDate":"2020-09-02T21:00:00.000Z","creationDate":"2020-09-03T04:26:20.513Z","endDate":"2020-09-03T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"ad","initialDate":"2020-09-02T21:00:00.000Z","creationDate":"2020-09-03T04:26:22.142Z","endDate":"2020-09-03T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"ad","initialDate":"2020-09-02T21:00:00.000Z","creationDate":"2020-09-03T04:26:29.913Z","endDate":"2020-09-03T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"2","initialDate":"2020-09-03T21:00:00.000Z","creationDate":"2020-09-03T04:33:18.322Z","endDate":"2020-09-04T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"3","initialDate":"2020-09-03T21:00:00.000Z","creationDate":"2020-09-03T04:33:22.914Z","endDate":"2020-09-04T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"personal","expired":false},{"title":"4","initialDate":"2020-09-03T21:00:00.000Z","creationDate":"2020-09-03T04:33:27.470Z","endDate":"2020-09-04T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"study","expired":false},{"title":"1","initialDate":"2020-09-04T21:00:00.000Z","creationDate":"2020-09-03T04:33:37.823Z","endDate":"2020-09-05T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"study","expired":false},{"title":"2","initialDate":"2020-09-04T21:00:00.000Z","creationDate":"2020-09-03T04:33:40.813Z","endDate":"2020-09-05T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"study","expired":false},{"title":"3","initialDate":"2020-09-04T21:00:00.000Z","creationDate":"2020-09-03T04:33:47.209Z","endDate":"2020-09-05T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"personal","expired":false},{"title":"1","initialDate":"2020-09-05T21:00:00.000Z","creationDate":"2020-09-03T04:33:53.459Z","endDate":"2020-09-06T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"meeting","expired":false},{"title":"2","initialDate":"2020-09-05T21:00:00.000Z","creationDate":"2020-09-03T04:34:00.017Z","endDate":"2020-09-06T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"tttttt","initialDate":"2020-09-05T21:00:00.000Z","creationDate":"2020-09-03T05:23:50.037Z","endDate":"2020-09-06T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"tttttt","initialDate":"2020-08-30T21:00:00.000Z","creationDate":"2020-09-03T05:24:18.285Z","endDate":"2020-08-31T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"study","expired":true},{"title":"tttttt","initialDate":"2020-08-30T21:00:00.000Z","creationDate":"2020-09-03T05:25:06.881Z","endDate":"2020-08-31T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":true},{"title":"adf","initialDate":"2020-09-03T21:00:00.000Z","creationDate":"2020-09-03T05:34:19.250Z","endDate":"2020-09-04T20:59:00.000Z","reminderDate":"1970-01-01T00:00:00.000Z","description":"","type":"none","expired":false},{"title":"expired","initialDate":"2020-08-19T00:02:00.000Z","creationDate":"2020-09-03T06:21:49.624Z","endDate":"2020-09-02T11:03:00.000Z","reminderDate":"2020-09-02T10:03:00.000Z","description":"","type":"none","expired":true},{"title":"asdf","initialDate":"2020-09-10T11:02:00.000Z","creationDate":"2020-09-03T06:40:52.161Z","endDate":"2020-09-10T20:59:00.000Z","reminderDate":"Invalid date","description":"","type":"none","expired":false},{"title":"New","initialDate":"2020-09-29T03:05:00.000Z","creationDate":"2020-09-03T06:41:10.774Z","endDate":"2020-10-02T20:59:00.000Z","reminderDate":"2020-10-02T19:59:00.000Z","description":"","type":"personal","expired":false}]';
+}
 
 //load the events from the localStorage to the variable events
 //the dates are date objects
 function loadEvents() {
-    if (localStorage.length === 0) {
+    if (localStorage.length === 0 || localStorage.events=="" || localStorage.events ===undefined) {
         return false;
     }
 
@@ -161,13 +181,14 @@ function displayHideEventsType(operation,eventType){
 }
 
 
+
 setInterval(checkDisplayedEvents, 500);
 //check the size of the screen and displays the num of events that fit
 function checkDisplayedEvents() {
     function manageDisplayEvents(numEvents) {
         document.querySelectorAll(".month.displayed  .events-container").forEach((con) => {
             con.querySelectorAll(".event.displayed").forEach((ev, i) => {
-                if (i > numEvents - 1) {
+                if (i > numEvents -1) {
                     ev.classList.add("hide");
                 } else {
                     ev.classList.remove("hide");
@@ -177,11 +198,25 @@ function checkDisplayedEvents() {
             extraEvents.classList.add("more-events");
             let preExtraEvents = con.querySelector(".more-events");
             let displayedChildren = con.querySelectorAll(".event.displayed").length;
-            if ((displayedChildren - numEvents) > 0) {
+            if ((displayedChildren - numEvents) > 1) {
 
                 if (preExtraEvents === null) {
                     con.appendChild(extraEvents);
                     extraEvents.textContent =displayedChildren - numEvents + " more";
+                    let containerEvents = document.getElementById("day-events-id");
+                    extraEvents.addEventListener("click",(e)=>{
+                        containerEvents.classList.remove("hide");
+                        containerEvents.innerHTML = '<button id="btn-close-day-events" class="btn-close-modal">X</button>';
+                        document.getElementById("btn-close-day-events").addEventListener("click",(e)=>{
+                            containerEvents.classList.add("hide");
+                        });
+                        e.currentTarget.parentElement.querySelectorAll(".event.displayed").forEach((ev1)=>{
+                            let container = document.createElement("div");
+                            displayEventInfo(container,events[ev1.dataset.position],true);
+
+                            containerEvents.appendChild(container);
+                        });
+                    });
                     
 
                 } else {
@@ -194,6 +229,9 @@ function checkDisplayedEvents() {
                 } catch {
 
                 }
+                try{
+                    con.querySelectorAll(".event.displayed")[displayedChildren-1].classList.remove("hide");
+                }catch{}
             }
 
         });
@@ -216,7 +254,16 @@ function checkDisplayedEvents() {
 function displayFormAddEvent() {
     modalContainer.classList.remove("hide");
     modalAddEvent.classList.remove("hide");
+}
 
+//
+function deleteEvent(){
+    let position = singleEventContainer.querySelector(".event-box").dataset.position;
+    events = events.filter((ev,index)=>{
+        return index!=position;
+    });
+    storeEvents();
+    location.reload();
 }
 
 function addEvent(event) {
@@ -249,7 +296,6 @@ function addEvent(event) {
     //check
 
     let dayElement = document.querySelector("#year-" + evInitialDate.getFullYear() + "> [data-month='" + (evInitialDate.getMonth() + 1) + "'] .day-" + evInitialDate.getDate() + ".c-month");
-    console.log(dayElement);
     if (dayElement !== null) {
         addNewEvent(dayElement, newEvent);
     }
@@ -263,18 +309,13 @@ function addEvent(event) {
     let monthElement;
     if (evInitialDate.getDate() > 20) {
         possibleMonth = new Date(initialDate.value.slice(0, 4), parseInt(initialDate.value.slice(5, 7)));
-        console.log("check if other month: ");
-        console.log(possibleMonth.getFullYear());
-        console.log(possibleMonth.getMonth()+1);
-        console.log("ev:"+(evInitialDate.getMonth() + 2));
+
         monthElement = document.querySelector("#year-" + possibleMonth.getFullYear() + "> [data-month='" +(possibleMonth.getMonth()+1) + "']");
         if (monthElement === null) {
-            console.log("month does not exist");
             return false;
         } else {
             monthElement.querySelectorAll("li.day-other-month").forEach((el) => {
                 if (el.classList.contains("day-" + evInitialDate.getDate())) {
-                    console.log("EXISTS in a previous month");
                     addNewEvent(el, newEvent);
                     //add events
                 }
@@ -285,12 +326,12 @@ function addEvent(event) {
         possibleMonth = new Date(initialDate.value.slice(0, 4), parseInt(initialDate.value.slice(5, 7))-2);
         monthElement = document.querySelector("#year-" + possibleMonth.getFullYear() + "> [data-month='" + (possibleMonth.getMonth()+1) + "']");
         if (monthElement === null) {
-            console.log("month does not exist");
+      
             return false;
         } else {
             monthElement.querySelectorAll("li.day-other-month").forEach((el) => {
                 if (el.classList.contains("day-" + evInitialDate.getDate())) {
-                    console.log("EXISTS in a previous month");
+          
                     addNewEvent(el, newEvent);
                     //add events
                 }
@@ -341,7 +382,7 @@ function addNewEvent(container, event) {
 
 
     if (eventContainer === null) {
-        console.log("creae event container");
+ 
         eventContainer = document.createElement("div");
         eventContainer.classList.add("events-container");
         eventContainer.appendChild(newEvent);
@@ -358,9 +399,9 @@ function addNewEvent(container, event) {
 
 
 function validateForm() {
-    console.log(eventTitle.value);
+
     if (eventTitle.value === "") {
-        console.log("remove");
+
         errorTitle.classList.remove("hide");
         return false;
     } else {
@@ -419,14 +460,16 @@ function displayExpiredEvents(){
     return sortedEvents;
 }
 //the container should be a div or li 
-function displayEventInfo(container,event){
+function displayEventInfo(container,event,bin=false){
     function dateFormat(date){
         let day = (date.getDay()===0)? 6: date.getDay()-1;
         return DAYS[day]+", "+date.getDate()+" "+ MONTHS[date.getMonth()]+" "+date.getFullYear();
     }
     container.classList.add("event-box");
+    container.dataset.position = events.indexOf(event);
     let evTitle = document.createElement("div");
     evTitle.classList.add("title-event");
+    evTitle.classList.add(event.type);
     evTitle.textContent = event.title;
     let evInitialDate = document.createElement("p");
     evInitialDate.classList.add("date");
@@ -454,6 +497,32 @@ function displayEventInfo(container,event){
     evCreationDate.textContent = dateFormat(event.creationDate);
     evCreationDate.insertAdjacentElement("afterbegin",evTitleCreationDate);
     container.append(evTitle,evInitialDate,evEndDate,evType,evDescription,evCreationDate);
+    //add button to delete events
+    if(bin===true){
+        let evBin = document.createElement("img");
+        evBin.classList.add("rubbish-bin");
+        evBin.src = "images/rubbish-bin.svg";
+        evBin.addEventListener("click",()=>{
+            let copyEvents =[];
+            Object.assign(copyEvents,events);
+            events = events.filter((el,index)=>{
+                if( index === events.indexOf(event)){
+                    container.classList.add("hide");
+                    document.querySelectorAll("[data-position='"+index+"']").forEach((el)=>{
+                        el.classList.add("hide");
+                        el.classList.remove("displayed");
+                    });
+                    return false;
+                }
+                return true;
+            });
+
+            storeEvents();
+            Object.assign(events,copyEvents);
+
+        });
+        container.append(evBin);
+    }
 }
 
 
@@ -557,28 +626,25 @@ function Calendar() {
             let rMonth;
             let dayNumber = parseInt(day.querySelector(".day-number").textContent);
             if (day.classList.contains("p-month")) {
-                console.log("previous");
+    
                 rMonth = month - 1;
                 if (rMonth === 0) {
                     rYear = year - 1;
                     rMonth = 12;
                 }
             } else if (day.classList.contains("n-month")) {
-                console.log("next");
+       
                 rMonth = month + 1;
                 if (rMonth > 12) {
                     rYear = year + 1;
                     rMonth = 1;
                 }
             } else {
-                console.log("this");
+
                 rMonth = month;
                 rYear = year;
             }
-            console.log("INFO");
-            console.log(rMonth);
-            console.log(rYear);
-            console.log(dayNumber);
+
             
             events.forEach(e => {
                 let eYear = e.initialDate.getFullYear();
@@ -607,11 +673,10 @@ function Calendar() {
     this.createMonth = function (year, month, hide = false, currentMonth = false) {
         //check if the month already exists
         if (document.querySelector("#year-" + year + " > [data-month='" + month + "']") !== null) {
-            console.log("The selected month already extists");
+
             return false;
         }
         if (month < 1 || month > 12) {
-            console.log("Invalid month");
             return false;
         }
         let newMonth = document.createElement("div");
@@ -717,10 +782,7 @@ function Calendar() {
                         displayFormAddEvent();
                         //set date to right date
                         disDay = (newDayNumber.textContent.length > 1) ? newDayNumber.textContent : ("0" + newDayNumber.textContent);
-                        console.log(disYear);
-                        console.log(disMonth);
-                        console.log(disDay);
-                        console.log("set value");
+
                         initialDate.value = disYear + "-" + disMonth + "-" + disDay;
                         endDate.value = initialDate.value;
 
@@ -763,7 +825,6 @@ function Calendar() {
     //creates a new year cotnainer and inserts it in the right position. If such year already exists returns false.
     this.createYear = function (year) {
         if (document.querySelector("#year-" + year) !== null) {
-            console.log("year already extists");
             return false;
         }
         let newYear = document.createElement("div");
@@ -826,7 +887,6 @@ function Calendar() {
         } else {
             this.createYear(year);
             this.createMonth(year, month);
-            console.log("new year and month created");
             //create the new month
         }
     }
