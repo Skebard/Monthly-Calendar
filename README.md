@@ -9,6 +9,7 @@
 
 
   <h1 align="center">Monthly calendar</h1>
+  <a href='https://tonijorda.com/myProjects/vanillaJS/calendar/'>View Demo</a>
 
 </p>
 
